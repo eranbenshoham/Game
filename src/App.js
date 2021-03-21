@@ -248,16 +248,16 @@ const Styles = styled.div`
   }
 `;
 
-const nodemailer = require("nodemailer");
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.email",
-  port: 587,
-  auth: {
-    user: "<email>",
-    pass: "<password>",
-  },
-});
-const emailData = [{relation:"father",name:"Anakin Skywalker"},{relation:"son",name:"Luke Skywalker"}];
+// const nodemailer = require("nodemailer");
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.email",
+//   port: 587,
+//   auth: {
+//     user: "<email>",
+//     pass: "<password>",
+//   },
+// });
+// const emailData = [{relation:"father",name:"Anakin Skywalker"},{relation:"son",name:"Luke Skywalker"}];
 // const csv = parse(emailData, ["relation","name"]);
 // const csvData = [
 //   ["firstname", "lastname", "email"],
@@ -431,7 +431,7 @@ function App() {
             }))
       }
     ],
-    []
+    [sideHeaders]
   );
 
   const [data, setData] = React.useState(() => makeData(5));
@@ -483,13 +483,13 @@ function App() {
     });
   };
 
-  const calculateBudget = () => {
-    let sum = 0;
-    data.forEach((item) => {
-      sum += item?.value ?? 0;
-    });
-    setTotalSelectedItems(sum);
-  };
+  // const calculateBudget = () => {
+  //   let sum = 0;
+  //   data.forEach((item) => {
+  //     sum += item?.value ?? 0;
+  //   });
+  //   setTotalSelectedItems(sum);
+  // };
 
   const openModal = () => {
     showModal(true);
@@ -563,7 +563,12 @@ function App() {
   // editing it, the page is reset
   React.useEffect(() => {
     setSkipPageReset(false);
-    calculateBudget();
+    let sum = 0;
+    data.forEach((item) => {
+      sum += item?.value ?? 0;
+    });
+    setTotalSelectedItems(sum);
+    // calculateBudget();
   }, [data]);
 
   // React.useEffect(() => {
@@ -582,18 +587,18 @@ function App() {
     setData(originalData);
   };
 
-  const dataSet2 = [
-    {
-      name: "Johnson",
-      total: 25,
-      remainig: 16
-    },
-    {
-      name: "Josef",
-      total: 25,
-      remainig: 7
-    }
-  ];
+  // const dataSet2 = [
+  //   {
+  //     name: "Johnson",
+  //     total: 25,
+  //     remainig: 16
+  //   },
+  //   {
+  //     name: "Josef",
+  //     total: 25,
+  //     remainig: 7
+  //   }
+  // ];
   const stam = [{...externalFile}]
   console.log('stam: ', stam)
 
