@@ -34,7 +34,7 @@ const Styles = styled.div`
   }
 
   button {
-     display:inline-block;
+    display:inline-block;
     padding: 0.3em 1.2em;
     margin: 0 0.1em 0.1em 0;
     border: 0.16em solid rgba(255,255,255,0);
@@ -44,11 +44,9 @@ const Styles = styled.div`
     font-family: 'Roboto',sans-serif;
     font-weight: 300;
     color: #FFFFFF;
-/*     text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35); */
     text-align: center;
     transition: all 0.2s;
-     /* background-color: #84f14e; */
-     background-color: #4e9af1;
+    background-color: #4e9af1;
   }
 
   button:disabled {
@@ -65,12 +63,17 @@ const Styles = styled.div`
   /* button:disabled:hover {
     border: none !important;
   } */
-  
+
   table {
     border-spacing: 0;
     border: 1px solid black;
 
+    /* Here To Change The Rows Color */
     tr {
+      :nth-child(even) {
+        background-color: red !important;
+      }
+
       :last-child {
         td {
           border-bottom: 0;
@@ -245,6 +248,23 @@ const Styles = styled.div`
   }
 `;
 
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.email",
+  port: 587,
+  auth: {
+    user: "<email>",
+    pass: "<password>",
+  },
+});
+const emailData = [{relation:"father",name:"Anakin Skywalker"},{relation:"son",name:"Luke Skywalker"}];
+// const csv = parse(emailData, ["relation","name"]);
+// const csvData = [
+//   ["firstname", "lastname", "email"],
+//   ["Ahmed", "Tomi", "ah@smthing.co.com"],
+//   ["Raed", "Labes", "rl@smthing.co.com"],
+//   ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+// ];
 // Create an editable cell renderer
 const EditableCell = ({
   value: initialValue,
@@ -356,7 +376,7 @@ const Modal = ({
   show,
   handleClose,
   handleSave,
-  handleNameChange,
+  handleEmailChange,
   value,
   children
 }) => {
@@ -365,12 +385,12 @@ const Modal = ({
     <div className={showHideClassName}>
       <div className="modal-main">
         <div>
-          <span>Enter Your Name: </span>
+          <span>Enter Your Email: </span>
           <input
             type="text"
-            placeholder="First Name"
+            placeholder="Email"
             value={value}
-            onChange={handleNameChange}
+            onChange={handleEmailChange}
             className="modalInput"
           />
         </div>
@@ -491,6 +511,33 @@ function App() {
     }
     setUserDataForExcel([result])
     setExportExcel(true)
+    
+    // transporter.sendMail(
+    //   {
+    //     from: userName.toString(),
+    //     to: "talmiedzigorski@gmail.com",
+    //     subject: "You need to know the truth",
+    //     text: "Ola! Please check the attachment for a surprise 😊",
+    //     html: "<b>Ola! Please check the attachment for a surprise! 😊</b>",
+    //     // here is the magic
+    //     // attachments: [
+    //     //   {
+    //     //     filename: "file.csv",
+    //     //     content: csv,
+    //     //   },
+    //     // ],
+    //   },
+    //   (err, info) => {
+    //     if (err) {
+    //       console.log("Error occurred. " + err.message);
+    //       return process.exit(1);
+    //     }
+    //     console.log("Message sent: %s", info.messageId);
+    //     // Preview only available when sending through an Ethereal account
+    //     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    //   }
+    // );
+    
     handleClose();
   };
 
@@ -507,7 +554,7 @@ function App() {
     return result;
   };
 
-  const handleNameChange = (e) => {
+  const handleEmailChange = (e) => {
     e.persist();
     setUserName(e.target.value);
   };
@@ -592,7 +639,7 @@ function App() {
           show={show}
           handleClose={handleClose}
           handleSave={handleSave}
-          handleNameChange={handleNameChange}
+          handleEmailChange={handleEmailChange}
           value={userName}
         ></Modal>
         <div className="budgetContainer">
